@@ -32,12 +32,12 @@ This document provides a comprehensive reference for the ElevenLabs Conversation
 Variables sent during conversation initialization:
 ```dart
 'dynamic_variables': {
-  'secret__auth_token': _authToken,    // JWT authentication token (required)
-  'user_name': _userName,              // User's display name (required)
-  'user_context': _userContext,        // Additional context about user (optional)
+  'secret__auth_token': _authToken,    // JWT authentication token 
+  'user_name': _userName,              // User's display name 
+  'user_context': _userContext,        // Additional context about user from database field additional_context
   'current_date_time': DateTime.now().toIso8601String(), // Timestamp
-  'latitude': _latitude.toString(),    // User's latitude (optional)
-  'longitude': _longitude.toString(),  // User's longitude (optional)
+  'latitude': _latitude.toString(),    // User's latitude 
+  'longitude': _longitude.toString(),  // User's longitude
 }
 ```
 
@@ -583,4 +583,5 @@ flutter clean && flutter pub get
 ---
 
 *Last Updated: [Current Date]*
+
 *Version: 1.0*
