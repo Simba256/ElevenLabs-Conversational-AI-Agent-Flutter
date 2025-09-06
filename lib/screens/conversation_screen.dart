@@ -12,6 +12,9 @@ class ConversationScreen extends StatefulWidget {
 class _ConversationScreenState extends State<ConversationScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _tokenController = TextEditingController();
+  final TextEditingController _contextController = TextEditingController();
+  final TextEditingController _latitudeController = TextEditingController();
+  final TextEditingController _longitudeController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   bool _speechInitialized = false;
@@ -37,6 +40,9 @@ class _ConversationScreenState extends State<ConversationScreen> {
   void dispose() {
     _nameController.dispose();
     _tokenController.dispose();
+    _contextController.dispose();
+    _latitudeController.dispose();
+    _longitudeController.dispose();
     _messageController.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -244,6 +250,89 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   borderSide: BorderSide(color: Colors.blue),
                 ),
               ),
+            ),
+            
+            const SizedBox(height: 12),
+            
+            // Context input (optional)
+            TextField(
+              controller: _contextController,
+              onChanged: service.setUserContext,
+              style: const TextStyle(color: Colors.white),
+              maxLines: 3,
+              minLines: 1,
+              decoration: const InputDecoration(
+                labelText: 'User Context (optional)',
+                labelStyle: TextStyle(color: Colors.grey),
+                hintText: 'Enter context about yourself...',
+                hintStyle: TextStyle(color: Colors.grey),
+                border: OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+              ),
+            ),
+            
+            const SizedBox(height: 12),
+            
+            // Location inputs (optional)
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _latitudeController,
+                    onChanged: (value) {
+                      final lat = double.tryParse(value) ?? 0.0;
+                      final lon = double.tryParse(_longitudeController.text) ?? 0.0;
+                      service.setLocation(lat, lon);
+                    },
+                    style: const TextStyle(color: Colors.white),
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      labelText: 'Latitude (optional)',
+                      labelStyle: TextStyle(color: Colors.grey),
+                      hintText: '0.0',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: TextField(
+                    controller: _longitudeController,
+                    onChanged: (value) {
+                      final lat = double.tryParse(_latitudeController.text) ?? 0.0;
+                      final lon = double.tryParse(value) ?? 0.0;
+                      service.setLocation(lat, lon);
+                    },
+                    style: const TextStyle(color: Colors.white),
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      labelText: 'Longitude (optional)',
+                      labelStyle: TextStyle(color: Colors.grey),
+                      hintText: '0.0',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             
             const SizedBox(height: 16),

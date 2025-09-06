@@ -29,13 +29,15 @@ This document provides a comprehensive reference for the ElevenLabs Conversation
 - **Authentication**: Token-based via dynamic variables
 
 ### Dynamic Variables
-Required variables sent during conversation initialization:
+Variables sent during conversation initialization:
 ```dart
 'dynamic_variables': {
-  'secret__auth_token': _authToken,    // JWT authentication token
-  'user_name': _userName,              // User's display name
-  'name_of_user': _userName,           // Alternate name field
+  'secret__auth_token': _authToken,    // JWT authentication token (required)
+  'user_name': _userName,              // User's display name (required)
+  'user_context': _userContext,        // Additional context about user (optional)
   'current_date_time': DateTime.now().toIso8601String(), // Timestamp
+  'latitude': _latitude.toString(),    // User's latitude (optional)
+  'longitude': _longitude.toString(),  // User's longitude (optional)
 }
 ```
 

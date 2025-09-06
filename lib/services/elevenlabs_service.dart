@@ -38,9 +38,12 @@ class ElevenLabsService with ChangeNotifier {
   final List<ChatMessage> _messages = [];
   String? _error;
   
-  // User credentials
+  // User credentials and context
   String _userName = '';
   String _authToken = '';
+  String _userContext = '';
+  double _latitude = 0.0;
+  double _longitude = 0.0;
   
   // Audio player
   final AudioPlayer _audioPlayer = AudioPlayer();
@@ -68,6 +71,9 @@ class ElevenLabsService with ChangeNotifier {
   String? get error => _error;
   String get userName => _userName;
   String get authToken => _authToken;
+  String get userContext => _userContext;
+  double get latitude => _latitude;
+  double get longitude => _longitude;
   
   // Setters
   void setUserName(String name) {
@@ -77,6 +83,17 @@ class ElevenLabsService with ChangeNotifier {
   
   void setAuthToken(String token) {
     _authToken = token;
+    notifyListeners();
+  }
+  
+  void setUserContext(String context) {
+    _userContext = context;
+    notifyListeners();
+  }
+  
+  void setLocation(double latitude, double longitude) {
+    _latitude = latitude;
+    _longitude = longitude;
     notifyListeners();
   }
   
@@ -109,7 +126,7 @@ class ElevenLabsService with ChangeNotifier {
   }
   
   
-  // Check if ready to connect
+  // Check if ready to connect (only require essential fields)
   bool get canConnect => _userName.isNotEmpty && _authToken.isNotEmpty;
   
   // Connect to ElevenLabs WebSocket
@@ -140,8 +157,10 @@ class ElevenLabsService with ChangeNotifier {
         'dynamic_variables': {
           'secret__auth_token': _authToken,
           'user_name': _userName,
-          'name_of_user': _userName,
+          'user_context': _userContext,
           'current_date_time': DateTime.now().toIso8601String(),
+          'latitude': _latitude.toString(),
+          'longitude': _longitude.toString(),
         }
       };
       

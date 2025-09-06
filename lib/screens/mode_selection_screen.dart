@@ -79,9 +79,11 @@ class ModeSelectionScreen extends StatelessWidget {
     // Set the conversation mode first
     service.setConversationMode(mode);
     
-    // Clear any existing credentials to ensure fresh start
+    // Clear any existing credentials and context to ensure fresh start
     service.setUserName('');
     service.setAuthToken('');
+    service.setUserContext('');
+    service.setLocation(0.0, 0.0);
     
     // Disconnect if already connected
     service.disconnect();
